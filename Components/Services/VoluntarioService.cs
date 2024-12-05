@@ -1,48 +1,48 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Escalas.Components.Classes;
+using Microsoft.EntityFrameworkCore;
 
 namespace Escalas.Components.Services
 {
-    public class VoluntarioService
+    public class InstituicaoService
     {
         private readonly AppDbContext _context;
 
-        public VoluntarioService(AppDbContext context)
+        public InstituicaoService(AppDbContext context)
         {
             _context = context;
         }
 
-        public async Task<List<Voluntario>> CarregarVoluntariosAsync()
+        public async Task<List<Instituicao>> Carregar()
         {
-            return await _context.Voluntarios.ToListAsync();
+            return await _context.Instituicao.ToListAsync();
         }
 
-        public async Task SalvarVoluntarioAsync(Voluntario voluntario)
+        public async Task Salvar(Instituicao model)
         {
-            _context.Voluntarios.Add(voluntario);
+            _context.Instituicao.Add(model);
             await _context.SaveChangesAsync();
         }
 
-        public async Task EditarVoluntarioAsync(Voluntario voluntario)
+        public async Task Editar(Instituicao model)
         {
-            var voluntarioExistente = await _context.Voluntarios
-                .FirstOrDefaultAsync(v => v.Id == voluntario.Id);
+            var modelExistente = await _context.Instituicao
+                .FirstOrDefaultAsync(v => v.Id == model.Id);
 
-            if (voluntarioExistente != null)
+            if (modelExistente != null)
             {
-                voluntarioExistente.Nome = voluntario.Nome;
-                voluntarioExistente.Contato = voluntario.Contato;
-                voluntarioExistente.Funcao = voluntario.Funcao;
+                modelExistente.Nome = model.Nome;
+                modelExistente.Contato = model.Contato;
 
                 await _context.SaveChangesAsync();
             }
         }
 
-        public async Task ExcluirVoluntarioAsync(int id)
+        public async Task Excluir(int id)
         {
-            var voluntario = await _context.Voluntarios.FindAsync(id);
-            if (voluntario != null)
+            var model = await _context.Instituicao.FindAsync(id);
+            if (model != null)
             {
-                _context.Voluntarios.Remove(voluntario);
+                _context.Instituicao.Remove(model);
                 await _context.SaveChangesAsync();
             }
         }

@@ -13,6 +13,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddMudServices();
 builder.Services.AddScoped<VoluntarioService>();
+builder.Services.AddScoped<InstituicaoService>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));

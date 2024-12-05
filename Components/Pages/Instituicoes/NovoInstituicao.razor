@@ -1,0 +1,56 @@
+﻿@page "/NovoInstituicao"
+@rendermode InteractiveServer
+@inject IJSRuntime JSRuntime
+
+
+@using Escalas.Components.Classes
+@using Escalas.Components.Services
+@using Microsoft.EntityFrameworkCore
+@inject AppDbContext DbContext
+@inject NavigationManager navigation
+
+@inject InstituicaoService InstituicaoService
+
+<h3>Adicionar Voluntário</h3>
+
+<form style="display: flex
+;
+    flex-direction: column;
+    width: 300px;
+    gap: 0.5rem;
+    margin-bottom: 1rem;"
+      @onsubmit="SalvarVoluntario">
+
+    <input style="border: 1px solid black;padding: 0.5rem;border-radius: 15px;" type="text" @bind="instituicao.Nome" placeholder="Nome" required />
+    <input style="border: 1px solid black;padding: 0.5rem;border-radius: 15px;" type="text" @bind="instituicao.Contato" placeholder="Contato" />
+    <button style="border: 1px solid black;padding: 0.5rem;border-radius: 15px;" type="submit">@((instituicao.Id == 0) ? "Salvar" : "Atualizar")</button>
+</form>
+
+@code {
+    private Instituicao instituicao = new Instituicao();
+
+    private async Task SalvarVoluntario()
+    {
+        if (instituicao.Id == 0)
+        {
+            await InstituicaoService.Salvar(instituicao);
+        }
+        else
+        {
+            await InstituicaoService.Editar(instituicao);
+        }
+
+        instituicao = new Instituicao();
+        navigation.NavigateTo("IndexInstituicao");
+
+    }
+
+
+}
+
+<style>
+    td {
+        border: 1px solid black;
+        padding: 0.5rem;
+    }
+</style>

@@ -47,6 +47,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/estevao.bresolin/source/repos/Escalas/Components/Pages/Instituicoes/EditarInstituicao.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xJbnN0aXR1aWNvZXNcRWRpdGFySW5zdGl0dWljYW8ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/estevao.bresolin/source/repos/Escalas/Components/Pages/Instituicoes/IndexInstituicao.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xJbnN0aXR1aWNvZXNcSW5kZXhJbnN0aXR1aWNhby5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/estevao.bresolin/source/repos/Escalas/Components/Pages/Instituicoes/NovoInstituicao.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xJbnN0aXR1aWNvZXNcTm92b0luc3RpdHVpY2FvLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/estevao.bresolin/source/repos/Escalas/Components/Pages/Voluntarios/EditarVoluntario.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xWb2x1bnRhcmlvc1xFZGl0YXJWb2x1bnRhcmlvLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 

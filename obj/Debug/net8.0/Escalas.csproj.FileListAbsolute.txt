@@ -167,4 +167,5 @@ C:\Users\estevao.bresolin\source\repos\Escalas\obj\Debug\net8.0\refint\Escalas.d
 C:\Users\estevao.bresolin\source\repos\Escalas\obj\Debug\net8.0\Escalas.pdb
 C:\Users\estevao.bresolin\source\repos\Escalas\obj\Debug\net8.0\Escalas.genruntimeconfig.cache
 C:\Users\estevao.bresolin\source\repos\Escalas\obj\Debug\net8.0\ref\Escalas.dll
+C:\Users\estevao.bresolin\source\repos\Escalas\obj\Debug\net8.0\Escalas.sourcelink.json
 C:\Users\estevao.bresolin\source\repos\Escalas\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

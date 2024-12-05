@@ -1,4 +1,5 @@
-﻿using Escalas.Migrations;
+﻿using Escalas.Components.Classes;
+using Escalas.Migrations;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor.Charts;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
@@ -10,6 +11,9 @@ namespace Escalas.Components
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<Voluntario> Voluntarios { get; set; }
+
+        public DbSet<Instituicao> Instituicao { get; set; }
+
 
         //dotnet ef migrations add InitialCreate
 
