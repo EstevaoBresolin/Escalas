@@ -1,0 +1,85 @@
+﻿@page "/IndexVoluntario"
+@rendermode InteractiveServer
+@inject IJSRuntime JSRuntime
+
+
+@using Escalas.Components.Services
+@using Microsoft.EntityFrameworkCore
+@inject AppDbContext DbContext
+@inject VoluntarioService VoluntarioService
+@inject NavigationManager navigation
+
+<h3>Voluntários</h3>
+<MudButton Style="margin-bottom: 1rem; margin-top: 0.5rem;" OnClick="@(() => navigation.NavigateTo($"/NovoVoluntario"))" Variant="Variant.Filled">Novo</MudButton>
+
+
+<table style="">
+    <tr>
+        <td style="font-weight:bold">Nome</td>
+        <td style="font-weight:bold">Contato</td>
+        <td style="font-weight:bold">Função</td>
+        <td></td>
+        <td></td>
+    </tr>
+    @foreach (var voluntario in voluntarios)
+    {
+        <tr>
+            <td>@voluntario.Nome</td>
+            <td> @voluntario.Contato</td>
+            <td>@voluntario.Funcao</td>
+            <td>
+                <MudButton  OnClick="@(() => navigation.NavigateTo($"/EditarVoluntario/{@voluntario.Id}"))" Variant="Variant.Filled">Editar</MudButton>
+
+            </td>
+            <td>
+                <MudButton Variant="Variant.Filled" OnClick="@(() => ExcluirVoluntario(voluntario.Id))">Excluir</MudButton>
+            </td>
+        </tr>
+    }
+</table>
+
+
+@code {
+    private Voluntario voluntarioEditado = new Voluntario();
+    private List<Voluntario> voluntarios = new List<Voluntario>();
+
+  
+
+    private async Task CarregarVoluntarios()
+    {
+        voluntarios = await VoluntarioService.CarregarVoluntariosAsync();
+    }
+
+    private void EditarVoluntario(Voluntario voluntario)
+    {
+        voluntarioEditado = new Voluntario
+            {
+                Id = voluntario.Id,
+                Nome = voluntario.Nome,
+                Contato = voluntario.Contato,
+                Funcao = voluntario.Funcao
+            };
+    }
+
+    private async Task ExcluirVoluntario(int id)
+    {
+        var confirm = await JSRuntime.InvokeAsync<bool>("confirm", "Você tem certeza que deseja excluir este voluntário?");
+        if (confirm)
+        {
+            await VoluntarioService.ExcluirVoluntarioAsync(id);
+            await CarregarVoluntarios();
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        voluntarios = await VoluntarioService.CarregarVoluntariosAsync();
+    }
+}
+
+<style>
+    td {
+        border: 1px solid black;
+        padding: 0.5rem;
+    }
+</style>

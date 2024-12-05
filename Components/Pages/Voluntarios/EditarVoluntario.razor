@@ -1,0 +1,71 @@
+﻿@page "/EditarVoluntario/{Id:int}"
+@rendermode InteractiveServer
+@inject IJSRuntime JSRuntime
+
+@using Escalas.Components.Services
+@using Microsoft.EntityFrameworkCore
+@inject AppDbContext DbContext
+@inject NavigationManager navigation
+@inject VoluntarioService VoluntarioService
+
+<h3>Adicionar Voluntário</h3>
+
+<form style="display: flex
+;
+    flex-direction: column;
+    width: 300px;
+    gap: 0.5rem;
+    margin-bottom: 1rem;"
+      @onsubmit="SalvarVoluntario">
+
+    <input style="border: 1px solid black;padding: 0.5rem;border-radius: 15px;" type="text" @bind="voluntarioEditado.Nome" placeholder="Nome" required />
+    <input style="border: 1px solid black;padding: 0.5rem;border-radius: 15px;" type="text" @bind="voluntarioEditado.Contato" placeholder="Contato" />
+    <input style="border: 1px solid black;padding: 0.5rem;border-radius: 15px;" type="text" @bind="voluntarioEditado.Funcao" placeholder="Função" />
+    <button style="border: 1px solid black;padding: 0.5rem;border-radius: 15px;" type="submit">@((voluntarioEditado.Id == 0) ? "Salvar" : "Atualizar")</button>
+</form>
+
+@code {
+    private Voluntario voluntarioEditado = new Voluntario();
+    private List<Voluntario> voluntarios = new List<Voluntario>();
+    [Parameter] public int Id { get; set; }
+
+    private async Task SalvarVoluntario()
+    {
+        if (voluntarioEditado.Id == 0)
+        {
+            await VoluntarioService.SalvarVoluntarioAsync(voluntarioEditado);
+        }
+        else
+        {
+            await VoluntarioService.EditarVoluntarioAsync(voluntarioEditado);
+        }
+
+        voluntarioEditado = new Voluntario();
+        navigation.NavigateTo("IndexVoluntario");
+    }
+
+    private void Editar(Voluntario voluntario)
+    {
+        voluntarioEditado = new Voluntario
+            {
+                Id = voluntario.Id,
+                Nome = voluntario.Nome,
+                Contato = voluntario.Contato,
+                Funcao = voluntario.Funcao
+            };
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        voluntarios = await VoluntarioService.CarregarVoluntariosAsync();
+        voluntarioEditado = voluntarios.FirstOrDefault(v => v.Id == Id);
+        Editar(voluntarioEditado);
+    }
+}
+
+<style>
+    td {
+        border: 1px solid black;
+        padding: 0.5rem;
+    }
+</style>
