@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Escalas")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7ce076ad1179ee6d898a718b9afcd19121d00144")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c705ca63f14a222f4869d7bf8c5457145b9a1300")]
 [assembly: System.Reflection.AssemblyProductAttribute("Escalas")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Escalas")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

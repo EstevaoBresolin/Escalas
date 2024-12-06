@@ -7,25 +7,31 @@ using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add MudBlazor services
+builder.Services.AddMudServices();
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddMudServices();
 builder.Services.AddScoped<VoluntarioService>();
 builder.Services.AddScoped<InstituicaoService>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseExceptionHandler("/Error");
     app.UseHsts();
+
+    builder.Services.AddHsts(options =>
+    {
+        options.Preload = true; // Permite pré-carregar HSTS no navegador
+        options.IncludeSubDomains = true; // Aplica a subdomínios
+        options.MaxAge = TimeSpan.FromDays(365); // Expira após 1 ano
+    });
 }
 
 app.UseHttpsRedirection();

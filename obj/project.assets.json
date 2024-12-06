@@ -3565,7 +3565,7 @@
     "net8.0": [
       "Microsoft.EntityFrameworkCore.Sqlite >= 9.0.0",
       "Microsoft.EntityFrameworkCore.Tools >= 9.0.0",
-      "MudBlazor >= 7.15.0"
+      "MudBlazor >= 7.*"
     ]
   },
   "packageFolders": {
@@ -3631,7 +3631,7 @@
           },
           "MudBlazor": {
             "target": "Package",
-            "version": "[7.15.0, )"
+            "version": "[7.*, )"
           }
         },
         "imports": [
