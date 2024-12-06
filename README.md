@@ -1,7 +1,6 @@
 # Web App Escalas
 
 ## Descrição Geral do Projeto
-## Status: Levantamento de requisitos
 
 O projeto é um Web App criado para facilitar a organização e o gerenciamento de escalas de atividades em igrejas.  
 Com foco em atender necessidades específicas de ministérios como o Ministério do Louvor, o sistema permitirá que igrejas cadastrem seus eventos, ministérios e membros de forma simples e intuitiva.  
