@@ -1,24 +1,16 @@
 ﻿@page "/EditarInstituicao/{Id:int}"
 @rendermode InteractiveServer
 @inject IJSRuntime JSRuntime
+@inject InstituicaoService InstituicaoService
 
 @using Escalas.Components.Classes
 @using Escalas.Components.Services
 @using Microsoft.EntityFrameworkCore
-@inject AppDbContext DbContext
 @inject NavigationManager navigation
-@inject InstituicaoService InstituicaoService
 
 <h3>Adicionar Instituiçao</h3>
 
-<form style="display: flex
-;
-    flex-direction: column;
-    width: 300px;
-    gap: 0.5rem;
-    margin-bottom: 1rem;"
-      @onsubmit="Salvar">
-
+<form style="display: flex;flex-direction: column;width: 300px;gap: 0.5rem;margin-bottom: 1rem;" @onsubmit="Salvar">
     <input style="border: 1px solid black;padding: 0.5rem;border-radius: 15px;" type="text" @bind="instituicao.Nome" placeholder="Nome" required />
     <input style="border: 1px solid black;padding: 0.5rem;border-radius: 15px;" type="text" @bind="instituicao.Contato" placeholder="Contato" />
     <button style="border: 1px solid black;padding: 0.5rem;border-radius: 15px;" type="submit">@((instituicao.Id == 0) ? "Salvar" : "Atualizar")</button>
@@ -31,34 +23,27 @@
 
     private async Task Salvar()
     {
-        if (instituicao.Id == 0)
-        {
-            await InstituicaoService.Salvar(instituicao);
-        }
-        else
-        {
-            await InstituicaoService.Editar(instituicao);
-        }
-
+      
+        await InstituicaoService.Salvar(instituicao);
+       
         instituicao = new Instituicao();
         navigation.NavigateTo("IndexInstituicao");
     }
 
-    private void Editar(Instituicao instituicao)
-    {
-        instituicao = new Instituicao
-            {
-                Id = instituicao.Id,
-                Nome = instituicao.Nome,
-                Contato = instituicao.Contato,
-            };
-    }
+    // private void Editar(Instituicao instituicao)
+    // {
+    //     instituicao = new Instituicao
+    //         {
+    //             Id = instituicao.Id,
+    //             Nome = instituicao.Nome,
+    //             Contato = instituicao.Contato,
+    //         };
+    // }
 
     protected override async Task OnInitializedAsync()
     {
-        instituicoes = await InstituicaoService.Carregar();
-        instituicao = instituicoes.FirstOrDefault(v => v.Id == Id);
-        Editar(instituicao);
+        instituicao = await InstituicaoService.ObterPorId(Id);
+        // Editar(instituicao);
     }
 }
 

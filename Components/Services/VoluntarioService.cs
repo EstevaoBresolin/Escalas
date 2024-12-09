@@ -3,47 +3,44 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Escalas.Components.Services
 {
-    public class InstituicaoService
+    public class VoluntarioService
     {
-        private readonly AppDbContext _context;
+        private readonly HttpClient _httpClient;
 
-        public InstituicaoService(AppDbContext context)
+        public VoluntarioService(HttpClient httpClient)
         {
-            _context = context;
+            _httpClient = httpClient;
         }
 
-        public async Task<List<Instituicao>> Carregar()
+        public async Task<List<Voluntario>> ObterTodos()
         {
-            return await _context.Instituicao.ToListAsync();
+            return await _httpClient.GetFromJsonAsync<List<Voluntario>>("https://localhost:7046/Voluntario");
         }
 
-        public async Task Salvar(Instituicao model)
+        public async Task<Voluntario> ObterPorId(int id)
         {
-            _context.Instituicao.Add(model);
-            await _context.SaveChangesAsync();
+            return await _httpClient.GetFromJsonAsync<Voluntario>($"https://localhost:7046/Voluntario/{id}");
         }
 
-        public async Task Editar(Instituicao model)
+        public async Task<Voluntario> Salvar(Voluntario model)
         {
-            var modelExistente = await _context.Instituicao
-                .FirstOrDefaultAsync(v => v.Id == model.Id);
+            var response = await _httpClient.PostAsJsonAsync("https://localhost:7046/Voluntario", model);
 
-            if (modelExistente != null)
+            if (response.IsSuccessStatusCode)
             {
-                modelExistente.Nome = model.Nome;
-                modelExistente.Contato = model.Contato;
-
-                await _context.SaveChangesAsync();
+                return null;
             }
+
+            return null;
         }
 
         public async Task Excluir(int id)
         {
-            var model = await _context.Instituicao.FindAsync(id);
-            if (model != null)
+            var response = await _httpClient.DeleteAsync($"https://localhost:7046/Voluntario/{id}");
+
+            if (!response.IsSuccessStatusCode)
             {
-                _context.Instituicao.Remove(model);
-                await _context.SaveChangesAsync();
+                throw new Exception("Erro ao excluir o Voluntario.");
             }
         }
     }

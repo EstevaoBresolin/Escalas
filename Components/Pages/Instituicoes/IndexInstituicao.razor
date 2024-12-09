@@ -1,61 +1,46 @@
 ﻿@page "/IndexInstituicao"
 @using Escalas.Components.Classes
 @using Escalas.Components.Services
-@using Microsoft.EntityFrameworkCore
-@rendermode InteractiveServer
 @inject IJSRuntime JSRuntime
-@inject AppDbContext DbContext
-@inject InstituicaoService InstituicaoService
 @inject NavigationManager navigation
+@inject HttpClient Http
+@inject InstituicaoService InstituicaoService
 
 <h3>Instituição</h3>
-<MudButton Style="margin-bottom: 1rem; margin-top: 0.5rem;" OnClick="@(() => navigation.NavigateTo($"/NovoInstituicao"))" Variant="Variant.Filled">Novo</MudButton>
+<MudButton Style="margin-bottom: 1rem; margin-top: 0.5rem;" OnClick="@(() => navigation.NavigateTo("/NovoInstituicao"))" Variant="Variant.Filled">Novo</MudButton>
 
 
-<table style="">
-    <tr>
-        <td style="font-weight:bold">Nome</td>
-        <td style="font-weight:bold">Contato</td>
-        <td></td>
-        <td></td>
-    </tr>
-    @foreach (var context in models)
-    {
+    <table style="">
         <tr>
-            <td>@context.Nome</td>
-            <td> @context.Contato</td>
-            <td>
-                <MudButton OnClick="@(() => navigation.NavigateTo($"/EditarInstituicao/{@context.Id}"))" Variant="Variant.Filled">Editar</MudButton>
-
-            </td>
-            <td>
-                <MudButton Variant="Variant.Filled" OnClick="@(() => Excluir(context.Id))">Excluir</MudButton>
-            </td>
+            <td style="font-weight:bold">Nome</td>
+            <td style="font-weight:bold">Contato</td>
+            <td></td>
+            <td></td>
         </tr>
-    }
-</table>
+        @foreach (var context in models)
+        {
+            <tr>
+                <td>@context.Nome</td>
+                <td>@context.Contato</td>
+                <td>
+                    <MudButton OnClick="@(() => navigation.NavigateTo($"/EditarInstituicao/{context.Id}"))" Variant="Variant.Filled">Editar</MudButton>
+                </td>
+                <td>
+                    <MudButton Variant="Variant.Filled" OnClick="@(() => Excluir(context.Id))">Excluir</MudButton>
+                </td>
+            </tr>
+        }
+    </table>
 
 
 @code {
-    private Instituicao model = new Instituicao();
     private List<Instituicao> models = new List<Instituicao>();
+    private bool isLoading = true;
 
-  
-
-    private async Task Carregar()
+    protected override async Task OnInitializedAsync()
     {
-        models = await InstituicaoService.Carregar();
+        models = await InstituicaoService.ObterTodos();
     }
-
-    // private void Editar(Instituicao voluntario)
-    // {
-    //     model = new Instituicao
-    //         {
-    //             Id = voluntario.Id,
-    //             Nome = voluntario.Nome,
-    //             Contato = voluntario.Contato,
-    //         };
-    // }
 
     private async Task Excluir(int id)
     {
@@ -63,14 +48,10 @@
         if (confirm)
         {
             await InstituicaoService.Excluir(id);
-            await Carregar();
+            models = await InstituicaoService.ObterTodos();
         }
     }
-
-    protected override async Task OnInitializedAsync()
-    {
-        models = await InstituicaoService.Carregar();
-    }
+    
 }
 
 <style>

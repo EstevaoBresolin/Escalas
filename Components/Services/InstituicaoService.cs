@@ -1,51 +1,50 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Escalas.Components.Classes;
+using Microsoft.EntityFrameworkCore;
 
 namespace Escalas.Components.Services
 {
-    public class VoluntarioService
+    public class InstituicaoService
     {
-        private readonly AppDbContext _context;
+        private readonly HttpClient _httpClient;
 
-        public VoluntarioService(AppDbContext context)
+        public InstituicaoService(HttpClient httpClient)
         {
-            _context = context;
+            _httpClient = httpClient;
         }
 
-        public async Task<List<Voluntario>> CarregarVoluntariosAsync()
+        public async Task<List<Instituicao>> ObterTodos()
         {
-            return await _context.Voluntarios.ToListAsync();
+            return await _httpClient.GetFromJsonAsync<List<Instituicao>>("https://localhost:7046/Instituicao");
         }
 
-        public async Task SalvarVoluntarioAsync(Voluntario voluntario)
+        public async Task<Instituicao> ObterPorId(int id)
         {
-            _context.Voluntarios.Add(voluntario);
-            await _context.SaveChangesAsync();
+            return await _httpClient.GetFromJsonAsync<Instituicao>($"https://localhost:7046/Instituicao/{id}");
         }
 
-        public async Task EditarVoluntarioAsync(Voluntario voluntario)
+        public async Task<Instituicao> Salvar(Instituicao instituicao)
         {
-            var voluntarioExistente = await _context.Voluntarios
-                .FirstOrDefaultAsync(v => v.Id == voluntario.Id);
+            var response = await _httpClient.PostAsJsonAsync("https://localhost:7046/Instituicao", instituicao);
 
-            if (voluntarioExistente != null)
+            if (response.IsSuccessStatusCode)
             {
-                voluntarioExistente.Nome = voluntario.Nome;
-                voluntarioExistente.Contato = voluntario.Contato;
-                voluntarioExistente.Funcao = voluntario.Funcao;
+                return null;
+            }
 
-                await _context.SaveChangesAsync();
+            return null;
+        }
+
+        public async Task Excluir(int id)
+        {
+            var response = await _httpClient.DeleteAsync($"https://localhost:7046/Instituicao/{id}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Erro ao excluir a instituição.");
             }
         }
 
-        public async Task ExcluirVoluntarioAsync(int id)
-        {
-            var voluntario = await _context.Voluntarios.FindAsync(id);
-            if (voluntario != null)
-            {
-                _context.Voluntarios.Remove(voluntario);
-                await _context.SaveChangesAsync();
-            }
-        }
     }
+
 
 }

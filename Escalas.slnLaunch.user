@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Novo Perfil",
+    "Projects": [
+      {
+        "Path": "Escalas.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "..\\BackEnd\\BackEnd.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

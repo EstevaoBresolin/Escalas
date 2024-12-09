@@ -13,11 +13,12 @@ builder.Services.AddMudServices();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddScoped<VoluntarioService>();
+builder.Services.AddHttpClient();
 builder.Services.AddScoped<InstituicaoService>();
+builder.Services.AddScoped<VoluntarioService>();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

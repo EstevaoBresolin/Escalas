@@ -1,14 +1,11 @@
 ﻿@page "/NovoVoluntario"
 @rendermode InteractiveServer
 @inject IJSRuntime JSRuntime
-
-
 @using Escalas.Components.Services
 @using Microsoft.EntityFrameworkCore
-@inject AppDbContext DbContext
 @inject NavigationManager navigation
-
 @inject VoluntarioService VoluntarioService
+
 
 <h3>Adicionar Voluntário</h3>
 
@@ -18,7 +15,7 @@
     width: 300px;
     gap: 0.5rem;
     margin-bottom: 1rem;"
-      @onsubmit="SalvarVoluntario">
+      @onsubmit="Salvar">
 
     <input style="border: 1px solid black;padding: 0.5rem;border-radius: 15px;" type="text" @bind="voluntarioEditado.Nome" placeholder="Nome" required />
     <input style="border: 1px solid black;padding: 0.5rem;border-radius: 15px;" type="text" @bind="voluntarioEditado.Contato" placeholder="Contato" />
@@ -29,17 +26,9 @@
 @code {
     private Voluntario voluntarioEditado = new Voluntario();
 
-    private async Task SalvarVoluntario()
+    private async Task Salvar()
     {
-        if (voluntarioEditado.Id == 0)
-        {
-            await VoluntarioService.SalvarVoluntarioAsync(voluntarioEditado);
-        }
-        else
-        {
-            await VoluntarioService.EditarVoluntarioAsync(voluntarioEditado);
-        }
-
+        await VoluntarioService.Salvar(voluntarioEditado);
         voluntarioEditado = new Voluntario();
         navigation.NavigateTo("IndexVoluntario");
 

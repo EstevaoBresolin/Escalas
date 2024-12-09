@@ -1,12 +1,9 @@
 ﻿@page "/IndexVoluntario"
 @rendermode InteractiveServer
 @inject IJSRuntime JSRuntime
-
-
+@inject VoluntarioService VoluntarioService
 @using Escalas.Components.Services
 @using Microsoft.EntityFrameworkCore
-@inject AppDbContext DbContext
-@inject VoluntarioService VoluntarioService
 @inject NavigationManager navigation
 
 <h3>Voluntários</h3>
@@ -21,7 +18,7 @@
         <td></td>
         <td></td>
     </tr>
-    @foreach (var voluntario in voluntarios)
+    @foreach (var voluntario in models)
     {
         <tr>
             <td>@voluntario.Nome</td>
@@ -32,7 +29,7 @@
 
             </td>
             <td>
-                <MudButton Variant="Variant.Filled" OnClick="@(() => ExcluirVoluntario(voluntario.Id))">Excluir</MudButton>
+                <MudButton Variant="Variant.Filled" OnClick="@(() => Excluir(voluntario.Id))">Excluir</MudButton>
             </td>
         </tr>
     }
@@ -40,40 +37,21 @@
 
 
 @code {
-    private Voluntario voluntarioEditado = new Voluntario();
-    private List<Voluntario> voluntarios = new List<Voluntario>();
-
-  
-
-    private async Task CarregarVoluntarios()
-    {
-        voluntarios = await VoluntarioService.CarregarVoluntariosAsync();
-    }
-
-    private void EditarVoluntario(Voluntario voluntario)
-    {
-        voluntarioEditado = new Voluntario
-            {
-                Id = voluntario.Id,
-                Nome = voluntario.Nome,
-                Contato = voluntario.Contato,
-                Funcao = voluntario.Funcao
-            };
-    }
-
-    private async Task ExcluirVoluntario(int id)
-    {
-        var confirm = await JSRuntime.InvokeAsync<bool>("confirm", "Você tem certeza que deseja excluir este voluntário?");
-        if (confirm)
-        {
-            await VoluntarioService.ExcluirVoluntarioAsync(id);
-            await CarregarVoluntarios();
-        }
-    }
+    private List<Voluntario> models = new List<Voluntario>();
 
     protected override async Task OnInitializedAsync()
     {
-        voluntarios = await VoluntarioService.CarregarVoluntariosAsync();
+        models = await VoluntarioService.ObterTodos();
+    }
+
+    private async Task Excluir(int id)
+    {
+        var confirm = await JSRuntime.InvokeAsync<bool>("confirm", "Você tem certeza que deseja excluir este Voluntario?");
+        if (confirm)
+        {
+            await VoluntarioService.Excluir(id);
+            models = await VoluntarioService.ObterTodos();
+        }
     }
 }
 
