@@ -9,8 +9,33 @@
 <h3>Voluntários</h3>
 <MudButton Style="margin-bottom: 1rem; margin-top: 0.5rem;" OnClick="@(() => navigation.NavigateTo($"/NovoVoluntario"))" Variant="Variant.Filled">Novo</MudButton>
 
+<MudTable Items="@models" RowsPerPage="15" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info">
 
-<table style="">
+    <HeaderContent>
+        <MudTh>Nome</MudTh>
+        <MudTh>Email</MudTh>
+        <MudTh>Função</MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+        <MudTd DataLabel="Nome">@context.Nome</MudTd>
+        <MudTd DataLabel="Contato">@context.Contato</MudTd>
+        <MudTd DataLabel="Contato">@context.Funcao</MudTd>
+
+        <MudTd class="btn-iten-table" DataLabel="">
+            <MudButton OnClick="@(() => navigation.NavigateTo($"/EditarVoluntario/{@context.Id}"))" Variant="Variant.Filled">Editar</MudButton>
+
+            <MudButton Variant="Variant.Filled" OnClick="@(() => Excluir(context.Id))">Excluir</MudButton>
+
+        </MudTd>
+
+    </RowTemplate>
+
+
+</MudTable>
+
+@* <table style="">
     <tr>
         <td style="font-weight:bold">Nome</td>
         <td style="font-weight:bold">Contato</td>
@@ -33,7 +58,7 @@
             </td>
         </tr>
     }
-</table>
+</table> *@
 
 
 @code {

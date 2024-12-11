@@ -7,10 +7,33 @@
 @inject InstituicaoService InstituicaoService
 
 <h3>Instituição</h3>
-<MudButton Style="margin-bottom: 1rem; margin-top: 0.5rem;" OnClick="@(() => navigation.NavigateTo("/NovoInstituicao"))" Variant="Variant.Filled">Novo</MudButton>
+
+        <MudButton Style="margin-bottom: 1rem; margin-top: 0.5rem;" OnClick="@(() => navigation.NavigateTo("/NovoInstituicao"))" Variant="Variant.Filled">Novo</MudButton>
+<MudTable Items="@models"RowsPerPage="15" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info">
+
+    <HeaderContent>
+        <MudTh>Nome</MudTh>
+        <MudTh>Contato</MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+        <MudTd DataLabel="Nome">@context.Nome</MudTd>
+        <MudTd DataLabel="Contato">@context.Contato</MudTd>
+        <MudTd class="btn-iten-table" DataLabel="">
+            <MudButton OnClick="@(() => navigation.NavigateTo($"/EditarInstituicao/{context.Id}"))" Variant="Variant.Filled">Editar</MudButton>
+            <MudButton Variant="Variant.Filled" OnClick="@(() => Excluir(context.Id))">Excluir</MudButton>
+
+        </MudTd>
+
+    </RowTemplate>
 
 
-    <table style="">
+</MudTable>
+
+
+
+  @*   <table style="">
         <tr>
             <td style="font-weight:bold">Nome</td>
             <td style="font-weight:bold">Contato</td>
@@ -30,7 +53,7 @@
                 </td>
             </tr>
         }
-    </table>
+    </table> *@
 
 
 @code {
