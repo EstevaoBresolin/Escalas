@@ -1,0 +1,21 @@
+{
+  "name": "Escalas",
+  "short_name": "Escalas",
+  "description": "escalas",
+  "icons": [
+    {
+      "src": "/images/icon192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/icon512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "display": "standalone",
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#000000"
+}
